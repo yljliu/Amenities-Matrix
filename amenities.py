@@ -14,8 +14,8 @@ def get_lodge_names():
             index = index + 1
             continue
         del lodges[index]
-
-    return lodges[:50]
+    
+    return lodges[:3]
 
 '''#Create a new CSV file with the confirmed amenities with respect to the lodge names'''
 def create_amenities_dataframe(dictionary: Dict[str, Dict[str, str]]):

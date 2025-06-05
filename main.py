@@ -27,7 +27,7 @@ def receive(lodge):
                 "content": "Does the lodge - " + lodge + " - contain the following amenities: swimming pool, waterhole, starbed, plunge pool, private terrace, landscape view, river view, fenced, not fenced, kid's club, spa, bar, beachfront, beach access, camp fire, buffet, A La Carte, Family Room, 24h Power, Inside the park"
             }
         ],
-        model="llama-3.3-70b-versatile",
+        model="compound-beta",
     )
 
     return chat_completion
@@ -44,6 +44,7 @@ def main():
         current_tries = 1
         MAX_RETRIES = 10
         DELAY = 1
+        error = False
 
         while current_tries < MAX_RETRIES:
 
@@ -59,15 +60,17 @@ def main():
                 break
             
             except RateLimitError as e:
-                msg = (str(e))
-                print(msg)
-                match = re.search(r'try again in (\d+)m(\d+(?:\.\d+)?)s', msg)
-                if match:
-                    min = int(match.group(1))
-                    sec = float(match.group(2))
-                    total_sleep_time = (min * 60) + sec + 60
-                    time.sleep(total_sleep_time)
-                continue
+                error = True
+                break
+                # msg = (str(e))
+                # print(msg)
+                # match = re.search(r'try again in (\d+)m(\d+(?:\.\d+)?)s', msg)
+                # if match:
+                #     min = int(match.group(1))
+                #     sec = float(match.group(2))
+                #     total_sleep_time = (min * 60) + sec + 60
+                #     time.sleep(total_sleep_time)
+                # continue
 
             #'''If conversion from string to dictionary fails, retry until the syntax is right or we've retried up to 11 times'''
             except SyntaxError:
@@ -91,7 +94,10 @@ def main():
                 if stop:
                     break
 
-                
+        if error: 
+            print("error")
+            break
+
         '''Add Lodge: Amenities'''
         result[lodges[i][0]] = confirmed
         time.sleep(DELAY * (2 ** current_tries) * random.uniform(0, 0.5))
