@@ -34,20 +34,22 @@ def create_amenities_dataframe(dictionary: Dict[str, Dict[str, str]]):
                 list_of_confirmations.append('x')
             else:
                 list_of_confirmations.append(' ')
-
+        """If the list is length of 20, then it works"""
         if len(list_of_confirmations) == 20:
             dictionary_to_dataframe[key] = list_of_confirmations
+        
         else:
             amenity_list = list(amenity.keys())
             missing = []
             if len(amenity_list) < 20:
                 x = [i for i in total_amen if i not in amenity_list]
                 missing = x
+                print(missing)
             for i in missing:
                 index = total_amen.index(i)
                 list_of_confirmations.insert(index, ' ')
             dictionary_to_dataframe[key] = list_of_confirmations
-    print(dictionary_to_dataframe)
+
     dataframe = pd.DataFrame(dictionary_to_dataframe)
     dataframe = dataframe.transpose()
     dataframe.index.name = 'Lodge Name'
