@@ -13,6 +13,9 @@ def get_lodge_names():
         if lodges[index][0] != '#REF!':
             index = index + 1
             continue
+        if isinstance(lodges[index][0],float):
+            index = index + 1
+            continue
         del lodges[index]
     
     return lodges
