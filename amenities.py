@@ -10,10 +10,7 @@ def get_lodge_names():
     '''Remove #REF! values'''
     index = 0
     while index < len(lodges):
-        if lodges[index][0] != '#REF!':
-            index = index + 1
-            continue
-        if isinstance(lodges[index][0],float):
+        if lodges[index][0] != '#REF!' and not isinstance(lodges[index][0], float):
             index = index + 1
             continue
         del lodges[index]
