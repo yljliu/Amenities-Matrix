@@ -48,6 +48,7 @@ def create_amenities_dataframe(dictionary: Dict[str, Dict[str, str]]):
             for i in missing:
                 index = total_amen.index(i)
                 list_of_confirmations.insert(index, ' ')
+            dictionary_to_dataframe[key] = list_of_confirmations
     print(dictionary_to_dataframe)
     dataframe = pd.DataFrame(dictionary_to_dataframe)
     dataframe = dataframe.transpose()
