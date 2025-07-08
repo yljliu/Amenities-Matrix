@@ -28,14 +28,12 @@ def create_amenities_dataframe(dictionary: Dict[str, Dict[str, str]]):
         amenity = dictionary[key]
 
         """For each amenitiy, mark down if it is available or not"""
-        index = 0
         for amen in amenity:
             result = amenity[amen]
             if result[0] == 'x':
-                list_of_confirmations[index] = 'x'
+                list_of_confirmations.append('x')
             else:
-                list_of_confirmations[index] = ' '
-            index = index + 1
+                list_of_confirmations.append(' ')
 
         if len(list_of_confirmations) == 20:
             dictionary_to_dataframe[key] = list_of_confirmations
