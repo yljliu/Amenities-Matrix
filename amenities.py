@@ -21,18 +21,33 @@ def get_lodge_names():
 def create_amenities_dataframe(dictionary: Dict[str, Dict[str, str]]):
 
     dictionary_to_dataframe = {}
+    total_amen = ['Swimming Pool', 'Waterhole', 'Starbed', 'Plunge Pool', 'Private Terrace', 'Landscape View', 'River View', 'Fenced', 'Not Fenced', "Kid's Club", 'Spa', 'Bar', 'Beachfront', 'Beach Access', 'Camp fire', 'Buffet', 'A La Carte', 'Family Room', '24h Power', 'Inside the park']
 
     for key in dictionary:
         list_of_confirmations = []
         amenity = dictionary[key]
+
+        """For each amenitiy, mark down if it is available or not"""
+        index = 0
         for amen in amenity:
             result = amenity[amen]
             if result[0] == 'x':
-                total = 'x'
-                list_of_confirmations.append(total)
+                list_of_confirmations[index] = 'x'
             else:
-                list_of_confirmations.append(' ')
-        dictionary_to_dataframe[key] = list_of_confirmations
+                list_of_confirmations[index] = ' '
+            index = index + 1
+
+        if len(list_of_confirmations) == 20:
+            dictionary_to_dataframe[key] = list_of_confirmations
+        else:
+            amenity_list = list(amenity.keys())
+            missing = []
+            if len(amenity_list) < 20:
+                x = [i for i in total_amen if i not in amenity_list]
+                missing = x
+            for i in missing:
+                index = total_amen.index(i)
+                list_of_confirmations.insert(index, ' ')
     print(dictionary_to_dataframe)
     dataframe = pd.DataFrame(dictionary_to_dataframe)
     dataframe = dataframe.transpose()
